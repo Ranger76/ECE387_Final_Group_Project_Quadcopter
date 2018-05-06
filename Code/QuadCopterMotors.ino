@@ -1,9 +1,12 @@
 /*
  * Copyright Takdanai Tantiyartyanontha, Taewoong Won
  */
-
+ 
 //Code is currently setup for testing via serial monitor. To actually run the motors,
 //comment out Serial.print statements and remove comments in function void setup() and void changeSpeed()
+//14,3,66639  address of Sam's HC-05
+
+
 #include <Servo.h>;
 #include <SoftwareSerial.h>;
 
@@ -183,7 +186,6 @@ d = ' ';
 
   }
   
-
 
 
 
