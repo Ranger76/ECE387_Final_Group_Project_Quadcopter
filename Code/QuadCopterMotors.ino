@@ -12,7 +12,7 @@
 
 //Minimum/Base Speed and Maximum Speed for motors
 const int baseSpeed = 64;
-const int maxSpeed = 70;
+const int maxSpeed = 73;
 
 // Pins for Bluetooth
 const int Tx = 2;
@@ -59,11 +59,16 @@ void setup(void)
   pinMode(StatePin,INPUT);
   
   // Set up ESC pins
-  //ESC_0.attach(6); // Adds ESC;
-  //ESC_1.attach(9); // Adds ESC;
-  //ESC_2.attach(10); // Adds ESC;
-  //ESC_3.attach(11); // Adds ESC;
-  
+  ESC_0.attach(6); // Adds ESC;
+  ESC_1.attach(9); // Adds ESC;
+  ESC_2.attach(10); // Adds ESC;
+  ESC_3.attach(11); // Adds ESC;
+
+  ESC_0.write(0);
+  ESC_1.write(0);
+  ESC_2.write(0);
+  ESC_3.write(0);
+
 }
 
 //Checks for Bluetooth Connection
@@ -95,90 +100,108 @@ void changeSpeed(char c){
   switch (c){
     case 'a': 
   
-      Serial.print("ESC0 Speed:: ");
-      Serial.print(speed0);
-      Serial.print(" -> ");
+  //    Serial.print("ESC0 Speed:: ");
+    //  Serial.print(speed0);
+   //   Serial.print(" -> ");
        speed0 = checkSpeed(++speed0);
-      Serial.print(speed0);
-    //ESC_0.write(speed0);
+  //    Serial.print(speed0);
+    ESC_0.write(speed0);
+        Serial.print(speed0);
+
     break;
       case 'b':
       
-      Serial.print("ESC0 Speed:: ");
-      Serial.print(speed0);
-      Serial.print(" -> ");
+   //   Serial.print("ESC0 Speed:: ");
+    //  Serial.print(speed0);
+   //   Serial.print(" -> ");
        speed0 = checkSpeed(--speed0);
-      Serial.print(speed0);
-    //ESC_0.write(speed0);
-    
+  //    Serial.print(speed0);
+    ESC_0.write(speed0);
+        Serial.print(speed0);
+
     break;
     case 'c': 
-        Serial.print("ESC1 Speed:: ");
-      Serial.print(speed1);
-      Serial.print(" -> ");
+    //    Serial.print("ESC1 Speed:: ");
+   //   Serial.print(speed1);
+   //   Serial.print(" -> ");
       speed1 = checkSpeed(++speed1);
-      Serial.print(speed1);
-    //ESC_1.write(speed1);
+  //    Serial.print(speed1);
+    ESC_1.write(speed1);
+        Serial.print(speed1);
+
     break;
    case 'd':
    
-       Serial.print("ESC1 Speed:: ");
-      Serial.print(speed1);
-      Serial.print(" -> ");
+  //    Serial.print("ESC1 Speed:: ");
+  //    Serial.print(speed1);
+  //    Serial.print(" -> ");
        speed1 = checkSpeed(--speed1);
-      Serial.print(speed1);
-    //ESC_1.write(speed1);
-    
+   //   Serial.print(speed1);
+    ESC_1.write(speed1);
+        Serial.print(speed1);
+
     break;
     case 'e':
    
-       Serial.print("ESC2 Speed:: ");
-      Serial.print(speed2);
-      Serial.print(" -> ");
+   //    Serial.print("ESC2 Speed:: ");
+   //   Serial.print(speed2);
+   //   Serial.print(" -> ");
        speed2 = checkSpeed(++speed2);
-      Serial.print(speed2);
-    //ESC_2.write(speed2);
+  //    Serial.print(speed2);
+    ESC_2.write(speed2);
+        Serial.print(speed2);
+
     break;
     case 'f':
     
-        Serial.print("ESC2 Speed:: ");
-      Serial.print(speed2);
-      Serial.print(" -> ");
+      //  Serial.print("ESC2 Speed:: ");
+      //Serial.print(speed2);
+      //Serial.print(" -> ");
        speed2 = checkSpeed(--speed2);
-      Serial.print(speed2);
-    //ESC_2.write(speed2);
+    //  Serial.print(speed2);
+    ESC_2.write(speed2);
+    Serial.print(speed2);
+
     break;
     case 'g':
-     
-      Serial.print("ESC3 Speed:: ");
-      Serial.print(speed3);
-      Serial.print(" -> ");
+//     
+//      Serial.print("ESC3 Speed:: ");
+//      Serial.print(speed3);
+//      Serial.print(" -> ");
       speed3 = checkSpeed(++speed3);
-      Serial.print(speed3);
-    //ESC_3.write(speed3);
+//      Serial.print(speed3);
+    ESC_3.write(speed3);
+    Serial.print(speed3);
+
     break;
     case 'h':
      speed3 = checkSpeed(--speed3);
-      Serial.print("ESC3 Speed:: ");
-      Serial.print(speed3);
-      speed3 = checkSpeed(--speed3);
-      Serial.print(" -> ");
-      Serial.print(speed3);
-    //ESC_3.write(speed3);
-    
+//      Serial.print("ESC3 Speed:: ");
+//      Serial.print(speed3);
+//      speed3 = checkSpeed(--speed3);
+//      Serial.print(" -> ");
+//      Serial.print(speed3);
+    ESC_3.write(speed3);
+    Serial.print(speed3);
+    break;
+
+    case 'z':
+    ESC_0.write(0);
+    ESC_1.write(0);
+    ESC_2.write(0);
+    ESC_3.write(0);
     break;
     default:
     break;
 }
 }
-
+  
 
 void loop(){
-  connected();
+
   
 while (btSerial.available()){
   d = btSerial.read();
-if(checkChar(d))
 changeSpeed(d);
 d = ' ';
     }
