@@ -1,5 +1,5 @@
 /*
- * Copyright Taewoong Won, Takdanai Tantiyartyanontha
+ * Copyright Taewoong Won
  */
  
 
