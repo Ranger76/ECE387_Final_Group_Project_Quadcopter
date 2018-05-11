@@ -1,33 +1,22 @@
 /*
- * Copyright Takdanai Tantiyartyanontha, Taewoong Won
+ * Copyright Taewoong Won, Takdanai Tantiyartyanontha
  */
  
-//Code is currently setup for testing via serial monitor. To actually run the motors,
-//comment out Serial.print statements and remove comments in function void setup() and void changeSpeed()
-//14,3,66639  address of Sam's HC-05
 
+/********************Libraries**********************/
+/***************************************************/
 
 #include <Servo.h>;
 #include <SoftwareSerial.h>;
 
-//Minimum/Base Speed and Maximum Speed for motors
-const int baseSpeed = 64;
-const int maxSpeed = 73;
-
+/*****************BLUETOOTH SETUP*******************/
+/***************************************************/
 // Pins for Bluetooth
 const int Tx = 2;
 const int Rx = 3;
 const int StatePin = 4;
 
-//Setup Bluetooth Module
-// HC-06 should be used.
 SoftwareSerial btSerial(2,3);
-
-//Define servo motors
-Servo ESC_0;
-Servo ESC_1;
-Servo ESC_2;
-Servo ESC_3;
 
 //variables to monitor bluetooth connection
 int connection = 0;
@@ -36,40 +25,27 @@ bool prevConnection = 0;
 //variable to store received data
 char d;
 
-//speed of each motors
+/*******************MOTOR SETUP*********************/
+/***************************************************/
+//Minimum/Base Speed and Maximum Speed for motors
+const int baseSpeed = 64;
+const int maxSpeed = 73;
+
+//Define servo motors
+Servo ESC_0;
+Servo ESC_1;
+Servo ESC_2;
+Servo ESC_3;
+
+//initialize speed of each motors with base speed
 int speed0 = baseSpeed;
 int speed1 = baseSpeed;
 int speed2 = baseSpeed;
 int speed3 = baseSpeed;
 
-//Checks if a given speed is in range
-int checkSpeed(int i){
-  if(i >= baseSpeed && i <= maxSpeed)
-  return i;
-  else if(i > maxSpeed)
-  return maxSpeed;
-  else return baseSpeed;
-}
 
-void setup(void)
-{
-
-  Serial.begin(9600);
-  btSerial.begin(9600);
-  pinMode(StatePin,INPUT);
-  
-  // Set up ESC pins
-  ESC_0.attach(6); // Adds ESC;
-  ESC_1.attach(9); // Adds ESC;
-  ESC_2.attach(10); // Adds ESC;
-  ESC_3.attach(11); // Adds ESC;
-
-  ESC_0.write(0);
-  ESC_1.write(0);
-  ESC_2.write(0);
-  ESC_3.write(0);
-
-}
+/********************FUNCTIONS**********************/
+/***************************************************/
 
 //Checks for Bluetooth Connection
  bool connected(){
@@ -86,15 +62,15 @@ void setup(void)
     ESC_2.detach();
     ESC_3.detach();
     Serial.println("Motors are turned off");
-  }
-  
- }
+  }}
 
+//Checks for validity of a given input
 bool checkChar(char c){
   return (int)c >= 'a' && (int)c <= 'h';
 }
 
-
+//Changes Speed based on data received.
+//Commented Lines were used for testing
 void changeSpeed(char c){
  int speed;
   switch (c){
@@ -197,16 +173,53 @@ void changeSpeed(char c){
 }
   
 
-void loop(){
+//Checks if a given speed is in range.
+//If it exceeds max speed, set the speed to maxSpeed and return maxSpeed
+//If it is below minimum speed, set the speed to minSpeed and return minSpeed
+int checkSpeed(int i){
+  if(i >= baseSpeed && i <= maxSpeed)
+  return i;
+  else if(i > maxSpeed)
+  return maxSpeed;
+  else return baseSpeed;
+}
 
+
+/******************SETUP FUNCTION*******************/
+/***************************************************/
+
+void setup(void)
+{
+
+  Serial.begin(9600);
+  btSerial.begin(9600);
+  pinMode(StatePin,INPUT);
+  
+  // Set up ESC pins
+  ESC_0.attach(6); // Adds ESC;
+  ESC_1.attach(9); // Adds ESC;
+  ESC_2.attach(10); // Adds ESC;
+  ESC_3.attach(11); // Adds ESC;
+
+  ESC_0.write(0);
+  ESC_1.write(0);
+  ESC_2.write(0);
+  ESC_3.write(0);
+
+}
+
+
+/**********************LOOP*************************/
+/***************************************************/
+
+void loop(){
+ connected();
   
 while (btSerial.available()){
   d = btSerial.read();
 changeSpeed(d);
 d = ' ';
     }
-
-
   }
   
 
