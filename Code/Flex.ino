@@ -5,12 +5,17 @@
 #include <Servo.h>;
 #include <SoftwareSerial.h>
 
+/****************BLUETOOTH SETUP********************/
+/***************************************************/
+
 const int Tx =2;
 const int Rx = 3;
 const int StatePin = 4;
 
 SoftwareSerial btSerial(2,3);
 
+/********************FELX SETUP*********************/
+/***************************************************/
 // Declaring and/or initializing variable to be used 
 // as pin assignments and values written to the 
 // assigned pins.
@@ -27,8 +32,12 @@ int flexRead3;
 int flexRead4;
 int flexRead5;
 
+//Used for Edge Detection
 bool f0 = false,f1 =false,f3=false,f4=false,f5=false;
 
+
+/******************SETUP FUNCTION*******************/
+/***************************************************/
 void setup(void)
 {
   // put your setup code here, to run once:
@@ -38,10 +47,11 @@ void setup(void)
 
 }
 
+/************************LOOP***********************/
+/***************************************************/
+
 void loop()
 {
-
-  // put your main code here, to run repeatedly:
   // Assigning the registered input values from 
   // pin A0 and A1 to repective variables.
   flexRead0 = analogRead(flexPin0);
@@ -49,16 +59,14 @@ void loop()
   flexRead2 = analogRead(flexPin2);
   flexRead3 = analogRead(flexPin3);
   flexRead4 = analogRead(flexPin4);
-  
   flexRead5 = analogRead(flexPin5);
 
-
-  
   // Checking the variables with the input values.
-  Serial.println("flexRead0:");
-  Serial.println(flexRead0);
-  Serial.println("flexRead1:");
-  Serial.println(flexRead1);
+  //Used for Testing Purposes
+//  Serial.println("flexRead0:");
+//  Serial.println(flexRead0);
+//  Serial.println("flexRead1:");
+//  Serial.println(flexRead1);
 //  Serial.println("flexRead2:");
 //  Serial.println(flexRead2);
 //  Serial.println("flexRead3:");
@@ -74,6 +82,7 @@ void loop()
   // Mapping base_0 motor angle_base_0 
   // for flexSensor 0.
 
+      //Increment Speed
   if(flexRead5 < 500){
     //Motor 0
       if(flexRead0 >= 550 && !f0){
@@ -112,7 +121,7 @@ void loop()
         f4 = false;
       }
       
-    
+    //Reversed(Decrement) Speed
   }else if(flexRead5 >= 500){
     //Motor 0
       if(flexRead0 >= 550 && !f0){
@@ -151,18 +160,11 @@ void loop()
         f4 = false;
       } 
   }
-
-
+//Turn off all Motors
 if(flexRead2 > 500){
   btSerial.write('z');
 }
   
 }
-
-
-
-
-
-
 
 
